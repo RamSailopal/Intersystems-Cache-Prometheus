@@ -24,9 +24,7 @@
 	  # Have to use $CHAR(10) as opposed to typical ! as Prometheus sees ! as \r and errors
 	  #
   	  w "# HELP cache_dashboard"
-  	  W $CHAR(10),"# TYPE cache_lic_num counter"
-  	  w $CHAR(10),"horolog_time "_$P($H,",",2)
-  	  w $CHAR(10),"random_number "_$R(200)
+  	  W $CHAR(10),"# TYPE cache_dashboard counter"
   	  w $CHAR(10),"license_usage "_licenu
   	  w $CHAR(10),"csp_sessions "_$SYSTEM.License.CSPUsers()
   	  w $CHAR(10),"Global_references "_^CacheTemp.SysMetrics("GlobalRefs")
