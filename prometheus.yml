@@ -1,0 +1,12 @@
+#
+# Append to the end of the existing prometheus.yml file located in /etc/prometheus
+#
+- job_name: IntersystemCache
+  honor_timestamps: true
+  scrape_interval: 60s
+  scrape_timeout: 10s
+  metrics_path: /csp/ras/cacheprom.csp                             # Change path accordingly
+  scheme: http
+  static_configs:
+  - targets:
+    - 192.168.240.50:80                                             # Change IP address accordingly
