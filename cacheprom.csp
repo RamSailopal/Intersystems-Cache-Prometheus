@@ -1,0 +1,36 @@
+<script language=cache runat=server>
+   	 s Rset=##class(%ResultSet).%New("%SYSTEM.License.Summary")
+	 if 'Rset s status="Could not form query %SYSTEM.License.Summary." w !,status q
+	 s r=Rset.Execute()
+	 if r {
+	 	s ncol=Rset.GetColumnCount()
+	 	f i=1:1:ncol s headings(i)=Rset.GetColumnName(i)
+	 	s nrec=0
+	 	While (Rset.Next()) {
+	  		s nrec=nrec+1
+	  		s ncol=Rset.GetColumnCount()
+	  		f i=1:1:ncol s data(nrec,i)=Rset.GetData(i)
+	 	}
+	 	d Rset.Close()
+	 	s status=nrec_" entries added to array"
+	  }
+      i 'r s status="Could not execute query %SYSTEM.License.Summary." w !,status q
+	  for i=1:1:nrec {
+		 I data(i,1)["Maximum License Units Used" S usage=data(i,2)
+		 I data(i,1)["License Units   Authorized" S licen=data(i,2)
+	  }
+	  S licenu=$FN((usage/licen)*100,",",2)
+  	  w "# HELP cache_dashboard"
+  	  W $CHAR(10),"# TYPE cache_lic_num counter"
+  	  w $CHAR(10),"horolog_time "_$P($H,",",2)
+  	  w $CHAR(10),"random_number "_$R(200)
+  	  w $CHAR(10),"license_usage "_licenu
+  	  w $CHAR(10),"csp_sessions "_$SYSTEM.License.CSPUsers()
+  	  w $CHAR(10),"Global_references "_^CacheTemp.SysMetrics("GlobalRefs")
+  	  w $CHAR(10),"Global_setKills "_^CacheTemp.SysMetrics("GlobalSetKill")
+  	  w $CHAR(10),"Routine_lines "_^CacheTemp.SysMetrics("RoutineLines")
+  	  w $CHAR(10),"Routine_Refs "_^CacheTemp.SysMetrics("RoutineRefs")
+  	  w $CHAR(10),"Physical_Block_Reads "_^CacheTemp.SysMetrics("PhysicalBlockReads")
+  	  w $CHAR(10),"Physical_Block_Writes "_^CacheTemp.SysMetrics("PhysicalBlockWrites")
+  	  
+  	</script>
