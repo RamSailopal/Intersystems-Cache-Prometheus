@@ -20,6 +20,9 @@
 		 I data(i,1)["License Units   Authorized" S licen=data(i,2)
 	  }
 	  S licenu=$FN((usage/licen)*100,",",2)
+	  #
+	  # Have to use $CHAR(10) as opposed to typical ! as Prometheus sees ! as \r and errors
+	  #
   	  w "# HELP cache_dashboard"
   	  W $CHAR(10),"# TYPE cache_lic_num counter"
   	  w $CHAR(10),"horolog_time "_$P($H,",",2)
