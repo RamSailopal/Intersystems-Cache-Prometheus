@@ -1,4 +1,8 @@
 <script language=cache runat=server>
+         Set %session.AppTimeout = 10
+	 #
+	 # Keep the session time to a minimum (10 seconds)
+	 #
    	 s Rset=##class(%ResultSet).%New("%SYSTEM.License.Summary")
 	 if 'Rset s status="Could not form query %SYSTEM.License.Summary." w !,status q
 	 s r=Rset.Execute()
